@@ -5,12 +5,14 @@ from card import Card
 
 app = Flask(__name__)
 
-
-@app.route('/')
-def index():
+def get_trello_config():
     board_id = os.getenv('TRELLO_BOARD_ID')
     board_key = os.getenv('TRELLO_KEY')
     board_token = os.getenv('TRELLO_TOKEN')
+
+@app.route('/')
+def index():
+    get_trello_config()
     items_response = requests.get(f'https://api.trello.com/1/boards/{board_id}/cards',params={'key': board_key,'token': board_token})
     items_dictionary = items_response.json()
     cards = []
@@ -23,9 +25,7 @@ def index():
 
 @app.route('/items', methods=['POST'])
 def add_item():
-    board_id = os.getenv('TRELLO_BOARD_ID')
-    board_key = os.getenv('TRELLO_KEY')
-    board_token = os.getenv('TRELLO_TOKEN')
+    get_trello_config()
     todo_title = request.form['text-input']
     items_response = requests.post(
         f'https://api.trello.com/1/cards',
@@ -41,9 +41,7 @@ def add_item():
 @app.route('/complete-item', methods=['POST'])
 def complete_item():
     card_id = request.form['id']
-    board_id = os.getenv('TRELLO_BOARD_ID')
-    board_key = os.getenv('TRELLO_KEY')
-    board_token = os.getenv('TRELLO_TOKEN')
+    get_trello_config()
     items_response = requests.put(
         f'https://api.trello.com/1/cards/{card_id}',
         params={
