@@ -1,8 +1,13 @@
 FROM python:3.8
 
-RUN apt-get update
+RUN pip install poetry
 
-# COPY
+WORKDIR /project
 
+COPY /todo_app /project/todo_app
+COPY /templates /project/todo_app
+COPY poetry.lock *.toml /project/
 
+RUN cd /project
+RUN poetry install
 
