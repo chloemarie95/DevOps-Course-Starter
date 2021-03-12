@@ -9,6 +9,6 @@ COPY /templates /project/todo_app
 COPY poetry.lock *.toml /project/
 COPY .env /project/ 
 
-RUN cd /project
+EXPOSE 5000
 RUN poetry install
-
+CMD poetry run flask run --host=0.0.0.0
