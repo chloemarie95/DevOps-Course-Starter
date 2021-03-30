@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import requests
 import os 
 from card import Card
+from data.view_model import ViewModel
 
 def create_app():
     app = Flask(__name__)
@@ -12,16 +13,14 @@ def create_app():
         board_id = os.getenv('TRELLO_BOARD_ID')
         board_key = os.getenv('TRELLO_KEY')
         board_token = os.getenv('TRELLO_TOKEN')
+
         items_response = requests.get(f'https://api.trello.com/1/boards/{board_id}/cards',params={'key': board_key,'token': board_token})
         items_dictionary = items_response.json()
 
         # change to view model class - unit test
-        cards = [] 
-        for item in items_dictionary:
-            new_card = Card(item["id"], item["name"], item["idList"])
-            cards.append(new_card)
+        view_model = ViewModel(items) 
 
-        return render_template('index.html', items=cards)
+        return render_template('index.html', view_model = view_model)
 
 
     @app.route('/items', methods=['POST'])
