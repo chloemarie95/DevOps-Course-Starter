@@ -1,3 +1,4 @@
+import pytest
 from dotenv import find_dotenv, load_dotenv
 from unittest.mock import patch, Mock
 import os
@@ -14,7 +15,7 @@ def client():
     with test_app.test_client() as client:
         yield client
 
-def sample_trello_cards_response: 
+def sample_trello_cards_response(): 
     return [
         {
             "id": "1",
