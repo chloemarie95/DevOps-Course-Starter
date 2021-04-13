@@ -15,10 +15,15 @@ def create_app():
         board_token = os.getenv('TRELLO_TOKEN')
 
         items_response = requests.get(f'https://api.trello.com/1/boards/{board_id}/cards',params={'key': board_key,'token': board_token})
-        items_dictionary = items_response.json()
+        items_list = items_response.json()
+        
+        cards = [] 
+        for item in items_list:
+            new_card = Card(item["id"], item["name"], item["idList"])
+            cards.append(new_card)
 
         # change to view model class - unit test
-        view_model = ViewModel(items) 
+        view_model = ViewModel(cards) 
 
         return render_template('index.html', view_model = view_model)
 
