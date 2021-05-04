@@ -7,16 +7,56 @@ content %}
 
 <div class="row">
   <div class="col-md-12">
-    <h2>Items</h2>
+    <h2>To Do Items</h2>
     <ul class="list-group mb-4">
       <!-- List the todo items here -->
-      {% for item in view_model.items %}
-        <li>{{ item.name }} | {{ item.status }}</li>
+      {% for item in view_model.todo_items() %}
+        <li class="list-group-item">{{ item.name }} | {{ item.status }}
+        <div class="d-flex w-100 justify-content-betwen">
+          <h5 class="mb-1">{{ item.name }}</h5>
         <form method="POST" action="/complete-item">
           <input type="text" name="id" value="{{ item.id }}" hidden/>
           <button type="submit" type="button" class="btn btn-primary">Complete</button>
         </form>
+
+
       {% endfor %}
+      </div>
+      </li>
+    </ul>
+    <h2>Doing Items</h2>
+    <ul class="list-group mb-4">
+      <!-- List the todo items here -->
+      {% for item in view_model.doing_items() %}
+        <li class="list-group-item">{{ item.name }} | {{ item.status }}
+        <div class="d-flex w-100 justify-content-betwen">
+          <h5 class="mb-1">{{ item.name }}</h5>
+        <form method="POST" action="/complete-item">
+          <input type="text" name="id" value="{{ item.id }}" hidden/>
+          <button type="submit" type="button" class="btn btn-primary">Complete</button>
+        </form>
+
+
+      {% endfor %}
+      </div>
+      </li>
+    </ul>
+    <h2>Done Items</h2>
+    <ul class="list-group mb-4">
+      <!-- List the todo items here -->
+      {% for item in view_model.done_items() %}
+        <li class="list-group-item">{{ item.name }} | {{ item.status }}
+        <div class="d-flex w-100 justify-content-betwen">
+          <h5 class="mb-1">{{ item.name }}</h5>
+        <form method="POST" action="/complete-item">
+          <input type="text" name="id" value="{{ item.id }}" hidden/>
+          <button type="submit" type="button" class="btn btn-primary">Complete</button>
+        </form>
+
+
+      {% endfor %}
+      </div>
+      </li>
     </ul>
   </div>
 </div>
@@ -27,3 +67,6 @@ content %}
   </form>
 </div>
 {% endblock %}
+
+
+<!-- Time: 26:31 -->
