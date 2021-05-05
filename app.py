@@ -3,16 +3,15 @@ import requests
 import os 
 from card import Card
 from data.view_model import ViewModel
+from flask_config import Config
 
 def create_app():
     app = Flask(__name__)
+    app.config.from_object(Config())
 
     # Provide test data instead of trello. Add data on line 14
     @app.route('/')
     def index():
-        board_id = os.getenv('TRELLO_BOARD_ID')
-        board_key = os.getenv('TRELLO_KEY')
-        board_token = os.getenv('TRELLO_TOKEN')
 
         items_response = requests.get(f'https://api.trello.com/1/boards/{board_id}/cards',params={'key': board_key,'token': board_token})
         items_list = items_response.json()
@@ -30,9 +29,6 @@ def create_app():
 
     @app.route('/items', methods=['POST'])
     def add_item():
-        board_id = os.getenv('TRELLO_BOARD_ID')
-        board_key = os.getenv('TRELLO_KEY')
-        board_token = os.getenv('TRELLO_TOKEN')
         todo_title = request.form['text-input']
         items_response = requests.post(
             f'https://api.trello.com/1/cards',
@@ -48,9 +44,6 @@ def create_app():
     @app.route('/complete-item', methods=['POST'])
     def complete_item():
         card_id = request.form['id']
-        board_id = os.getenv('TRELLO_BOARD_ID')
-        board_key = os.getenv('TRELLO_KEY')
-        board_token = os.getenv('TRELLO_TOKEN')
         items_response = requests.put(
             f'https://api.trello.com/1/cards/{card_id}',
             params={
