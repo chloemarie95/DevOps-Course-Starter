@@ -9,7 +9,6 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
 
-    # Provide test data instead of trello. Add data on line 14
     @app.route('/')
     def index():
 
