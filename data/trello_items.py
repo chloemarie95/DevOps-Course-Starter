@@ -1,9 +1,13 @@
-
-# Time: 49:47
 from data.todo_item import Item
 import requests
 from flask import current_app as app 
 import os 
+class Trello_service(object):
+    trello_lists = {}
+    def get_auth_params(self):
+        return { 'key': os.getenv('TRELLO_KEY'), 
+                'token': os.getenv('TRELLO_TOKEN'),
+                'list': os.getenv('TRELLO_BOARD_ID')}
 
 def get_auth_params():
     return { 
@@ -27,7 +31,7 @@ def get_boards():
     params = build_params()
     url = build_url('/members/me/boards')
 
-    reponse = requests.get(url, params = params)
+    response = requests.get(url, params = params)
     boards = response.json()
 
 def get_lists():
@@ -41,6 +45,17 @@ def get_lists():
     response = requests.get(url, params = params)
     lists = response.json()
 
+def get_list_id(self, name):
+        """
+        Get a trello list id for a give name from the list of all lists.
+
+        Returns:
+            listId:  The identifier for a given name
+        """
+        for listId in self.trello_lists:
+            trello_list = self.trello_lists[listId]
+            if trello_list.name == name:
+                return listId
 
 def get_items():
     """
@@ -57,7 +72,7 @@ def get_items():
 
     items = []
 
-    for card in trello_cards:
+    for card in trello_card:
         items.append(Item.fromTrelloCard(card))
 
     return items
