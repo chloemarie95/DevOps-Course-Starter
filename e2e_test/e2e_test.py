@@ -5,6 +5,8 @@ import pytest
 from selenium  import webdriver
 from dotenv import load_dotenv, find_dotenv
 from data.trello_items import Trello_service
+import time
+from selenium.webdriver.common.by import By
 
 @pytest.fixture(scope="module")
 def driver():
@@ -30,3 +32,30 @@ def test_app(driver):
     # Tear Down
     thread.join(1)
     service.delete_board(board_id)
+
+def test_check_title(driver, test_app):
+    driver.get('http://localhost:5000/')
+    time.sleep(4)
+    assert driver.title == 'To-Do App'
+
+def test_add_item(driver):
+    driver.get('http://localhost:5000/')
+    text = "Test To Do Item-Selenium"
+    
+    titleInput = driver.find_element_by_id("title-input")
+    titleInput.clear()
+    titleInput.send_keys(text)
+    time.sleep(2)
+    button = driver.find_element_by_id("add-button")
+    button.click()
+    time.sleep(2)
+    
+    assert text in driver.find_element_by_xpath("//ul").text
+
+def test_change_doing_item(driver, test_app):
+    driver.get('http://localhost:5000/')
+
+    doingItemPath = '/html/body/div/div[2]/div[2]/div/ul[2]/div[1]/li/ul/div/div[2]'
+    doingItem = driver.find_elements(By.XPATH, doingItemPath)
+
+    assert doingItem[0].text == 'Doing'
