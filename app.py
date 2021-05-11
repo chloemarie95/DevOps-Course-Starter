@@ -4,15 +4,20 @@ import os
 from card import Card
 from data.view_model import ViewModel
 from flask_config import Config
+from data.trello_items import Trello_service
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
 
+    with app.app_context():
+        service = Trello_service()
+        service.initiate()
+
     @app.route('/')
     def index():
-
-        items_response = requests.get(f'https://api.trello.com/1/boards/{board_id}/cards',params={'key': board_key,'token': board_token})
+        board_id = os.getenv('TRELLO_BOARD_ID')
+        items_response = requests.get(f'https://api.trello.com/1/boards/{board_id}/cards',params={'key': os.getenv('TRELLO_KEY'),'token': os.getenv('TRELLO_TOKEN')})
         items_list = items_response.json()
         
         cards = [] 
@@ -32,8 +37,8 @@ def create_app():
         items_response = requests.post(
             f'https://api.trello.com/1/cards',
             params={
-                'key': board_key, 
-                'token': board_token, 
+                'key': os.getenv('TRELLO_KEY'), 
+                'token': os.getenv('TRELLO_TOKEN'), 
                 'name': todo_title, 
                 'idList': os.getenv('TRELLO_TODO_ID')
             }
@@ -46,8 +51,8 @@ def create_app():
         items_response = requests.put(
             f'https://api.trello.com/1/cards/{card_id}',
             params={
-                'key': board_key, 
-                'token': board_token,
+                'key': os.getenv('TRELLO_KEY'),  
+                'token': os.getenv('TRELLO_TOKEN'),
                 'idList': os.getenv('TRELLO_DONE_ID')
             }
         )

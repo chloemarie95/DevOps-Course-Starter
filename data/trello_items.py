@@ -9,71 +9,80 @@ class Trello_service(object):
                 'token': os.getenv('TRELLO_TOKEN'),
                 'list': os.getenv('TRELLO_BOARD_ID')}
 
-def get_auth_params():
-    return { 
-        'key': app.config['TRELLO_API_KEY'], 
-        'token': app.config['TRELLO_API_SECRET']
-        }
+    def initiate(self):
+            trello_config = self.get_auth_params()
+            trello_key = trello_config ['key']
+            trello_token = trello_config ['token']
+            trello_default_board = trello_config ['list']
 
-def build_url(endpoint):
-    return app.config['TRELLO_BASE_URL'] + endpoint
+            self.TRELLO_CREDENTIALS = f"key={trello_key}&token={trello_token}"
+            self.TRELLO_BOARD_ID = trello_default_board                
 
-def build_params(params = {}):
-    full_params = get_auth_params()
-    full_params.update(params)
-    return full_params
+    def get_auth_params(self):
+        return { 
+            'key': app.config['TRELLO_API_KEY'], 
+            'token': app.config['TRELLO_API_SECRET']
+            }
 
-def get_boards():
-    """
-    Fetches all boards from Trello
+    def build_url(self, endpoint):
+        return app.config['TRELLO_BASE_URL'] + endpoint
 
-    """
-    params = build_params()
-    url = build_url('/members/me/boards')
+    def build_params(self, params = {}):
+        full_params = self.get_auth_params()
+        full_params.update(params)
+        return full_params
 
-    response = requests.get(url, params = params)
-    boards = response.json()
-
-def get_lists():
-    """
-    Fetches all lists for Trello board
-
-    """
-    params = build_params({'cards': 'open'})
-    url = build_url('/boards/%s/lists' % app.config['TRELLO_BOARD_ID'])
-
-    response = requests.get(url, params = params)
-    lists = response.json()
-
-def get_list_id(self, name):
+    def get_boards(self):
         """
-        Get a trello list id for a give name from the list of all lists.
+        Fetches all boards from Trello
 
-        Returns:
-            listId:  The identifier for a given name
         """
-        for listId in self.trello_lists:
-            trello_list = self.trello_lists[listId]
-            if trello_list.name == name:
-                return listId
+        params = self.build_params()
+        url = self.build_url('/members/me/boards')
 
-def get_items():
-    """
-    Fetches all items cards from Trello
+        response = requests.get(url, params = params)
+        boards = response.json()
 
-    """
+    def get_lists(self):
+        """
+        Fetches all lists for Trello board
 
-    url = f"https://api.trello.com/1/boards/{os.getenv('TRELLO_BOARD_ID')}/cards"
-    params = build_params()
+        """
+        params = self.build_params({'cards': 'open'})
+        url = self.build_url('/boards/%s/lists' % app.config['TRELLO_BOARD_ID'])
 
-    response = requests.get(url, params)
-    
-    trello_card = response.json()
+        response = requests.get(url, params = params)
+        lists = response.json()
 
-    items = []
+    def get_list_id(self, name):
+            """
+            Get a trello list id for a give name from the list of all lists.
 
-    for card in trello_card:
-        items.append(Item.fromTrelloCard(card))
+            Returns:
+                listId:  The identifier for a given name
+            """
+            for listId in self.trello_lists:
+                trello_list = self.trello_lists[listId]
+                if trello_list.name == name:
+                    return listId
 
-    return items
+    def get_items(self):
+        """
+        Fetches all items cards from Trello
+
+        """
+
+        url = f"https://api.trello.com/1/boards/{os.getenv('TRELLO_BOARD_ID')}/cards"
+        params = self.build_params()
+
+        response = requests.get(url, params)
+        
+        trello_card = response.json()
+
+        items = []
+
+        for card in trello_card:
+            items.append(Item.fromTrelloCard(card))
+
+        return items
 
