@@ -58,6 +58,19 @@ def create_app():
         )
         return redirect('/')
 
+    @app.route('/start-item', methods=['POST'])
+    def start_item():
+        card_id = request.form['id']
+        items_response = requests.put(
+            f'https://api.trello.com/1/cards/{card_id}',
+            params={
+                'key': os.getenv('TRELLO_KEY'),  
+                'token': os.getenv('TRELLO_TOKEN'),
+                'idList': os.getenv('TRELLO_DOING_ID')
+            }
+        )
+        return redirect('/')
+
     if __name__ == '__main__':
         app.run(debug=True)
 

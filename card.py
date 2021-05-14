@@ -10,8 +10,8 @@ class Card:
         done_list_id = os.getenv('TRELLO_DONE_ID')
         
         if list_id == todo_list_id:
-            self.status = "Things Todo"
+            self.status = "To Do"
         elif list_id == doing_list_id:
             self.status = "Doing"
-        else:
+        elif list_id == done_list_id:
             self.status = "Done"

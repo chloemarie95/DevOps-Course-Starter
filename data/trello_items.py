@@ -18,12 +18,6 @@ class Trello_service(object):
             self.TRELLO_CREDENTIALS = f"key={trello_key}&token={trello_token}"
             self.TRELLO_BOARD_ID = trello_default_board                
 
-    def get_auth_params(self):
-        return { 
-            'key': app.config['TRELLO_API_KEY'], 
-            'token': app.config['TRELLO_API_SECRET']
-            }
-
     def build_url(self, endpoint):
         return app.config['TRELLO_BASE_URL'] + endpoint
 
