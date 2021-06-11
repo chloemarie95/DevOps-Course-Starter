@@ -2,7 +2,7 @@ import pytest
 from dotenv import find_dotenv, load_dotenv
 from unittest.mock import patch, Mock
 import os
-import app
+from todo_app import app
 
 @pytest.fixture
 def client():

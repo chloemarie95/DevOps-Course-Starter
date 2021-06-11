@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
 import requests
 import os 
-from card import Card
-from data.view_model import ViewModel
-from flask_config import Config
-from data.trello_items import Trello_service
+from todo_app.card import Card
+from todo_app.data.view_model import ViewModel
+from todo_app.flask_config import Config
+from todo_app.data.trello_items import Trello_service
 
 def create_app():
     app = Flask(__name__)

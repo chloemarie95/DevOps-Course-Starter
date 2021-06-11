@@ -1,4 +1,4 @@
-from data.todo_item import Item
+from todo_app.data.todo_item import Item
 import requests
 from flask import current_app as app 
 import os 

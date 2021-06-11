@@ -1,10 +1,10 @@
 import os
 from threading import Thread
-import app
+from todo_app import app
 import pytest
 from selenium  import webdriver
 from dotenv import load_dotenv, find_dotenv
-from data.trello_items import Trello_service
+from todo_app.data.trello_items import Trello_service
 import time
 from selenium.webdriver.common.by import By
 

@@ -1,5 +1,5 @@
-from data.view_model import ViewModel 
-from data.todo_item import Item
+from todo_app.data.view_model import ViewModel 
+from todo_app.data.todo_item import Item
 import pytest
 
 def test_view_model_show_todo_items():
