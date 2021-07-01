@@ -35,7 +35,6 @@ def test_app(driver):
 
 def test_check_title(driver, test_app):
     driver.get('http://localhost:5000/')
-    time.sleep(4)
     assert driver.title == 'To-Do App'
 
 def test_add_item(driver):
@@ -45,17 +44,8 @@ def test_add_item(driver):
     titleInput = driver.find_element_by_id("title-input")
     titleInput.clear()
     titleInput.send_keys(text)
-    time.sleep(2)
+    driver.implicitly_wait(2)
     button = driver.find_element_by_id("add-button")
     button.click()
-    time.sleep(2)
     
     assert text in driver.find_element_by_xpath("//ul").text
-
-def test_change_doing_item(driver, test_app):
-    driver.get('http://localhost:5000/')
-
-    doingItemPath = '/html/body/div/div[2]/div[2]/div/ul[2]/div[1]/li/ul/div/div[2]'
-    doingItem = driver.find_elements(By.XPATH, doingItemPath)
-
-    assert doingItem[0].text == 'Doing'

@@ -121,3 +121,6 @@ env/
 
 # Poetry
 .venv/
+
+# Logs
+geckodriver.log
