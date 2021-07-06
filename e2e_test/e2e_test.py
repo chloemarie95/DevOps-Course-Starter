@@ -20,8 +20,7 @@ def test_app(driver):
     # Create the new board & update the board id environment variable
     service = Trello_service()
     service.initiate()
-    board_id = service.create_board("E2E Test board")
-    os.environ['TRELLO_BOARD_ID'] = board_id
+    board_id = os.environ['TRELLO_BOARD_ID']
     # construct the new application
     application = app.create_app()
     # start the app in its own thread.

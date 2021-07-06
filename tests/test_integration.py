@@ -30,7 +30,7 @@ def test_index_page(mock_get_requests, client):
     mock_get_requests.side_effect = mock_get_cards
     response = client.get('/')
 
-    assert str(response.data).find("New Todo")
+    assert "Test Todo name" in str(response.data)
 
 def mock_get_cards(url, params):
     if url == f"https://api.trello.com/1/boards/{os.getenv('TRELLO_BOARD_ID')}/cards":
