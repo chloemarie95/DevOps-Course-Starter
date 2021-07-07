@@ -52,7 +52,7 @@ You should see output similar to the following:
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 ## Running the unit and Selenium tests
 
-There are some prerequisities needed in order to run the Selenium tests. Ensure that the Firefox (https://www.mozilla.org/en-GB/firefox/new/) web browser  is installed and the geckodriver (https://github.com/mozilla/geckodriver/releases) is installed. You will need to also ensure that the file path is set in the PATH variable. Instuctions on how to do this is found here https://www.softwaretestinghelp.com/geckodriver-selenium-tutorial/. 
+There are some prerequisities needed in order to run the Selenium tests. Ensure that the Firefox (https://www.mozilla.org/en-GB/firefox/new/) web browser  is installed and the geckodriver (https://github.com/mozilla/geckodriver/releases) is installed. You will need to also ensure that the geckodriver file path is set in the PATH variable. Instuctions on how to do this is found here https://www.softwaretestinghelp.com/geckodriver-selenium-tutorial/. 
 
 Before running the tests, you will need to ensure that Pytest testing framework is installed. In the terminal, enter: 
 
